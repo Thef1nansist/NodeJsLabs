@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <title>4 Laba</title>
+</head>
+<body>
+    <div class="ml-3 pt-3">
+    <div  id="get_result">
+    </div>
+    <button class="button is-info" onclick="Get()">Get</button>
+    <br>
+    </div>
+    <div class="p-3">
+    <div class="field">
+        <label class="label">Id</label>
+        <div class="control">
+            <input type="number" class="col-3" id="ID" min="0">
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">Name</label>
+        <div class="control">
+            <input type="text" class="col-3" id="Name">
+        </div>
+    </div>
+    <div class="field">
+        <label class="label">DataBirthday</label>
+        <div class="control">
+            <input type="date" class="col-3" id="BDay">
+        </div>
+    </div>
+        
+    <button class="button is-success" onclick="Post()" >Add</button>
+    <button class="button is-warning" onclick="Put()" >EDIT</button>
+    <button class="button is-danger" onclick="Delete()" >DELETE</button>
+    </div>
+    <script>
+
+       async function Get(){
+            console.log("Get");
+            fetch('http://localhost:3000/api/db', {
+                method: 'GET',
+                headers: {'Content-type': 'application/html', 'Accept': 'application/json'}
+            })
+            .then(
+                response => {
+                    return response.json();
+                }
+            )
+            .then(pdata => {
+                console.log('data', pdata);
+                get_result.innerHTML = '';
+                pdata.forEach(el => {
+                    get_result.innerHTML += `id: ${el.id} name: ${el.name} bday:${el.bday}<br>`;
+                });
+            });
+        }
+
+        async function Post() {
+            console.log('Post');
+            fetch('http://localhost:3000/api/db', {
+                method: 'POST',
+                headers: {'Content-type': 'application/html', 'Accept': 'application/json'},
+                body: JSON.stringify({
+                    id:ID.value,
+                    name:Name.value,
+                    bday:BDay.value
+                })
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then((pdata) =>{
+                console.log("Post.pdata", pdata );
+            })
+        }
+
+        async function Put(){
+            console.log("Put");
+            fetch('http://localhost:3000/api/db', {
+                method: 'PUT',
+                headers: {'Content-type': 'application/html', 'Accept': 'application/json'},
+                body: JSON.stringify({
+                    id:ID.value,
+                    name:Name.value,
+                    bday:BDay.value
+                })
+            })
+            .then (response =>{
+                return response.text();
+            })
+            .then (data => {
+                get_result.innerHTML = data;
+            })
+        }
+        async function Delete() {
+            fetch(`http://localhost:3000/api/db?id=${ID.value}`, {
+                method:'DELETE'
+            })
+            .then(response => {
+                return response.text();
+            })
+            .then(data => {
+                get_result.innerHTML = `delete element: ${data}`;
+            })
+        }
+    </script>
+</body>
+</html>
