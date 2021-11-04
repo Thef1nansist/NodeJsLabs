@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="./static/sheets.css">
+    <title>Labs7</title>
+</head>
+
+<body>
+    <div class="image">
+        <img src="http://localhost:3000/pic.png" alt="pic" width="500px">
+    </div>
+    <br>
+    <div class="video">
+        <video controls autoplay width="500px">
+            <source src="http://localhost:3000/pricol.mp4">
+        </video>
+    </div>
+    <br>
+    <a href="http://localhost:3000/Lec123.docx">File doc</a>
+    <br>
+    <div id="json">
+        ...
+    </div>
+    <div id="xml">
+        ...
+    </div>
+    <input type="button" value="btn" onclick="funcPrintMsg()">
+
+    <script src="http://localhost:3000/js.js"></script>
+
+    <script>
+        window.addEventListener('load', async () => {
+            let res = await fetch('http://localhost:3000/jsonFile.json', {
+                method: 'GET'
+            });
+            let json = document.getElementById('json');
+            let jsonObj = await res.json();
+            json.innerText = JSON.stringify(jsonObj);
+
+            let res = await fetch('http://localhost:3000/xmlFile.xml', {
+                method: 'GET'
+            });
+            let xml = document.getElementById('xml');
+            let xmlObj = await res.text();
+            json.innerText = xmlObj;
+        })
+    </script>
+</body>
+
+</html>

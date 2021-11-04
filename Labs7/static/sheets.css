@@ -1,0 +1,9 @@
+* {
+    color: aqua;
+}
+
+#xml,
+#json {
+    background-color: #d55c5c;
+    color: #ffffff;
+}
