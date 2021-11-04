@@ -1,0 +1,11 @@
+{
+  "name": "newmodul",
+  "version": "1.0.1",
+  "description": "test",
+  "main": "m0603.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "thef1nansist",
+  "license": "ISC"
+}
