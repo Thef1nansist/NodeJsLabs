@@ -1,2 +1,2 @@
-const {send} = require('./m0603/m0603');
+const {send} = require('newmodul');
 send('лг');

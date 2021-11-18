@@ -10,7 +10,7 @@ var db_data = [
 function DB() {
 
     this.commit = () => {
-        console.log("commit");
+
     }
 
     this.select = () => {

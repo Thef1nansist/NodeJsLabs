@@ -22,7 +22,6 @@ let interval = null
 
 process.stdin.unref();
 
-let db = new DB.DB()
 
 
 let stat = {
@@ -82,6 +81,7 @@ db.on('DELETE', (req, resp) => {
 });
 
 const server = http.createServer(function (req, res) {
+    req.socket.unref()
     switch (url.parse(req.url).pathname) {
         case '/':
             {
@@ -106,7 +106,7 @@ const server = http.createServer(function (req, res) {
         default:
             break;
     }
-}).listen(3000);
+}).listen(3000)
 
 
 rl.prompt();

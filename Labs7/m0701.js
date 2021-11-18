@@ -10,7 +10,7 @@ const mimeDictionary = {
     '.docx' : 'application/msword',
     '.json' : 'application/json',
     '.xml' : 'application/xml',
-    'mp4' : 'video/mp4'
+    '.mp4' : 'video/mp4'
 }
 
 module.exports.get_handler = (dir, res, req) =>
