@@ -7,6 +7,10 @@ const {parseString} = require("xml2js");
 const xmlbuilder = require('xmlbuilder');
 const multiparty = require('multiparty')
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 
 const directory = "static";
 let k = 0;
@@ -33,7 +37,6 @@ let http_handler = (req, resp) =>
     console.log(`request url: ${req.url}, #`, ++k);
     let urlObj = url.parse(req.url);
     let queryObj = querystring.parse(urlObj.query);
-    console.log('after urlobj');
     if (req.method === "GET")
     {
         switch(urlObj.pathname)
@@ -47,7 +50,8 @@ let http_handler = (req, resp) =>
             case '/close':
                 {
                     setTimeout( () => server.close(),10000).unref();
-                    resp.end(`${s} <br />server will close in 10 secund`);
+                    
+                    resp.end(`<br />server will close in 10 secund`);
                     break;
                 }
             case '/connection':
@@ -67,23 +71,15 @@ let http_handler = (req, resp) =>
                 }
             case '/headers':
                 {
-                resp.setHeader('moy-header', 'moe znachenie')
+                    resp.setHeader('moy-header', 'moe znachenie');
 
-                let reqHeaders = ''
-                for (let key in req.headers) {
-                    reqHeaders += `${key}: ${req.headers[key]}\n`
-                }
-
-                // let respHeaders = ''
-                // for(let key in resp.getHeaders())
-                // {
-                //     respHeaders += `${key}: ${resp.headers[key]}\n`
-                // }
-            
-                // console.log(res.getHeaders())
-                // console.log(resHeaders)
-                resp.end(`REQUEST:\n${JSON.stringify(reqHeaders)}\nRESPONSE: \n${JSON.stringify(resp.headers)}`)
-                break;
+                    let reqHeaders = ''
+                    for (let key in req.headers) {
+                        reqHeaders += `${key}: ${req.headers[key]}\n`;
+                    }
+                    
+                    resp.end(`REQUEST:\n${JSON.stringify(reqHeaders, null, "  ")}\nRESPONSE: \n${JSON.stringify(resp.getHeaders())}`);
+                    break;
                 }
             case '/parameter':
                 {
@@ -108,7 +104,8 @@ let http_handler = (req, resp) =>
                     resp.write(`Client Port: ${req.socket.remotePort}\n`);
                     resp.write(`Server Ip: ${req.socket.localAddress} \n`);
                     resp.write(`Server Port: ${req.socket.localPort}\n`);
-                    resp.end();
+                    sleep(10000).then(() => resp.end());
+                   
                     break;
                 }
             case '/req-data':
@@ -116,22 +113,19 @@ let http_handler = (req, resp) =>
                     let buf = '';
                     req.on('data', (data) =>
                     {
-                        console.log('data', data.toString());
+                        console.log('data', data.length);
                         buf += data;
                     })
                     req.on('end', () =>
                     {
-                        console.log('data =', buf);
+                        console.log('data =', buf.length);
                     })
                     break;
                 }
             case '/resp-status':
                 {
-                    console.log(queryObj);
                     let statusCode = Number(queryObj.code);
-                    console.log(statusCode);
                     let statusMessage = queryObj.mess;
-                    console.log(statusMessage);
           
                     if (statusCode && statusMessage && !isNaN(statusCode)) {
                         resp.statusCode = statusCode;
@@ -153,10 +147,10 @@ let http_handler = (req, resp) =>
                 }
             case '/upload':
                 {
-                    let file = fs.readFileSync('./index.html')
+                    let file = fs.readFileSync('./index.html');
 
-                    resp.writeHead(200, {'Content-Type': 'text/html'})
-                    resp.end(file)
+                    resp.writeHead(200, {'Content-Type': 'text/html'});
+                    resp.end(file);
                     break;
                 } 
             default:
@@ -277,9 +271,11 @@ let http_handler = (req, resp) =>
                                 resp.end("ERROR 404" + `${message}`);
                             }
                         })
+                        break;
                     }
                 case '/xml':
                     {
+                        
                         let result = '';
                         let objXml = null;
 
@@ -287,6 +283,7 @@ let http_handler = (req, resp) =>
                         {
                             result += data;
                         });
+                        
                         req.on('end', () =>
                         {
                             try
@@ -329,6 +326,7 @@ let http_handler = (req, resp) =>
                                 resp.end('Error 400' + message);
                             }
                         })
+                        break;
                     }
                     case "/upload":
                         {
