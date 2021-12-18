@@ -1,0 +1,19 @@
+﻿Сборка начата 18.12.2021 23:59:30.
+Уровень детализации журнала: Normal.     1>Проект "D:\5sem\NodeJs\Labs13\Lab2(TCP)\ServerT\ServerT\ServerT.vcxproj" в узле 2 (целевые объекты Build).
+     1>InitializeBuildStatus:
+         Обращение к "Debug\ServerT.tlog\unsuccessfulbuild".
+       ClCompile:
+         Для всех выходных данных обновления не требуется.
+       Link:
+         Для всех выходных данных обновления не требуется.
+         ServerT.vcxproj -> D:\5sem\NodeJs\Labs13\Lab2(TCP)\ServerT\Debug\ServerT.exe
+       FinalizeBuildStatus:
+         Файл "Debug\ServerT.tlog\unsuccessfulbuild" удаляется.
+         Обращение к "Debug\ServerT.tlog\ServerT.lastbuildstate".
+     1>Сборка проекта "D:\5sem\NodeJs\Labs13\Lab2(TCP)\ServerT\ServerT\ServerT.vcxproj" завершена (целевые объекты Build).
+
+Сборка успешно завершена.
+    Предупреждений: 0
+    Ошибок: 0
+
+Прошло времени 00:00:00.42
